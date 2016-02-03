@@ -41,22 +41,33 @@ Thing.find({}).removeAsync()
 
 User.find({}).removeAsync()
   .then(() => {
+
     User.createAsync({
       provider: 'local',
-      name: 'Practice User',
+      fname: 'Practice',
+      lname: 'User',
+      mobile: 9494949794,
+      tc: true,
+      category: [],
       email: 'practice@example.com',
       role: 'practice',
       password: 'practice'
     },{
       provider: 'local',
-      name: 'Locum User',
+      fname: 'Locum ',
+      lname: 'User',
+      mobile: 9494949793,
+      tc: true,
+      category: [],
       email: 'locum@example.com',
       role: 'locum',
       password: 'locum'
     }, {
       provider: 'local',
       role: 'admin',
-      name: 'Admin',
+      mobile: 9494943794,
+      fname: 'Admin',
+      lname: 'User',
       email: 'admin@example.com',
       password: 'admin'
     })
