@@ -1,0 +1,9 @@
+table,tbody{
+	border: 1px solid silver;
+}
+.action{
+	cursor: pointer;
+}
+.trash{
+	color: red;
+}
