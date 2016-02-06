@@ -6,6 +6,7 @@
 'use strict';
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
+import Vacancy from '../api/vacancy/vacancy.model';
 
 Thing.find({}).removeAsync()
   .then(() => {
@@ -73,5 +74,21 @@ User.find({}).removeAsync()
     })
     .then(() => {
       console.log('finished populating users');
+    });
+  });
+Vacancy.find({}).removeAsync()
+  .then(() => {
+
+    Vacancy.createAsync({
+       category: "cat",
+      desc: "desc",
+      skill: "skill",
+      count: 1,
+      rate: 3,
+      date: new Date(),
+      time: new Date()
+    })
+    .then(() => {
+      console.log('finished populating vacancy');
     });
   });

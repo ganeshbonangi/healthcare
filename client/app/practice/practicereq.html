@@ -36,44 +36,48 @@
                                                     'has-error': form.count.$invalid && submitted }">
                   <label>No. of Requirments</label>
 
-                  <input type="text" name="count" class="form-control" ng-model="req.count"
+                  <input type="number" name="count" class="form-control" ng-model="req.count"
                          required placeholder="No. of Requirments"/>
                   <p class="help-block" ng-show="form.count.$error.required && submitted">
-                    A count is required
+                    Count is required
                   </p>
                 </div>
-                <div class="form-group form-inline" ng-class="{ 'has-success': form.name.$valid && submitted,
-                                                    'has-error': form.name.$invalid && submitted }">
+                <div class="form-group form-inline" ng-class="{ 'has-success': form.dt.$valid && submitted,
+                                                    'has-error': form.dt.$invalid && submitted }">
                   <label>Date</label>
 
-                  <input type="text" name="name" class="form-control" ng-model="user.fname"
-                         required placeholder="First name"/>
-                  <p class="help-block" ng-show="form.name.$error.required && submitted">
-                    A name is required
+                  <input type="text" class="form-control" name="dt" datepicker-popup="dd-MMMM-yyyy" ng-model="req.dt" is-open="popup1.opened" min-date="minDate"   ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                  <span>
+                    <button type="button" class="btn btn-default" ng-click="openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+
+                  <p class="help-block" ng-show="form.dt.$error.required && submitted">
+                    Date is required
                   </p>
                 </div>
-                <div class="form-group form-inline" ng-class="{ 'has-success': form.name.$valid && submitted,
-                                                    'has-error': form.name.$invalid && submitted }">
+                <div class="form-group form-inline timer" ng-class="{ 'has-success': form.mytime.$valid && submitted,
+                                                    'has-error': form.mytime.$invalid && submitted }">
                   <label>Time</label>
-
-                  <input type="text" name="name" class="form-control" ng-model="user.fname"
-                         required placeholder="First name"/>
-                  <p class="help-block" ng-show="form.name.$error.required && submitted">
-                    A name is required
+                  <timepicker ng-model="req.mytime" ng-change="changed()"  hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                  <p class="help-block" ng-show="form.mytime.$error.required && submitted">
+                    Time is required
                   </p>
                 </div>
                 <div class="form-group form-inline" ng-class="{ 'has-success': form.rate.$valid && submitted,
                                                     'has-error': form.rate.$invalid && submitted }">
                   <label>Rate</label>
 
-                  <input type="text" name="rate" class="form-control" ng-model="req.rate"
+                  <input type="number" name="rate" class="form-control" ng-model="req.rate"
                          required placeholder="Rate"/>
                   <p class="help-block" ng-show="form.rate.$error.required && submitted">
                     A rate is required
                   </p>
                 </div>
-                <button class="btn btn-inverse btn-md btn-register" type="submit">
+                <button ng-hide="updateEnable" class="btn btn-inverse btn-md btn-register" type="submit">
                     Submit
+                </button>
+                <button ng-show="updateEnable" class="btn btn-inverse btn-md btn-register" type="submit">
+                    Update
                 </button>
             </form> 
         </div>

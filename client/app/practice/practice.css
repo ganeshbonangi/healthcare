@@ -1,4 +1,4 @@
-table,tbody{
+table.table-hover,.table-hover tbody{
 	border: 1px solid silver;
 }
 .action{
@@ -6,4 +6,7 @@ table,tbody{
 }
 .trash{
 	color: red;
+}
+.timer table{
+	display: inline-table;
 }
