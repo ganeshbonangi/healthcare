@@ -4,6 +4,9 @@ table.table-hover,.table-hover tbody{
 .action{
 	cursor: pointer;
 }
+.action:hover {
+    text-decoration: none;
+}
 .trash{
 	color: red;
 }
