@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('clickeatApp')
-  .controller('PracticeCtrl', function ($scope, $modal) {
-    $scope.vacancyList = [
+  .controller('PracticeCtrl', function ($scope, $modal, $http) {
+ /*   $scope.vacancyList = [
     						{
     							category:'cat',
     							desc:'bal',
     							count:9,
     							skill:'html',
-    							dt:new Date(),
+    							date:new Date(),
     							mytime: new Date(),
     							rate:2,
 
@@ -18,19 +18,24 @@ angular.module('clickeatApp')
     							desc:'bal',
     							count:9,
     							skill:'html',
-    							dt:new Date(),
+    							date:new Date(),
     							mytime: new Date(),
     							rate:2
     						}
-    ];
+    ];*/
     $scope.formateDate = function(str){
     	var dateObj = new Date(str);
 		var month = dateObj.getUTCMonth() + 1; //months from 1-12
-		var day = dateObj.getUTCDate() + 1;
+		var day = dateObj.getUTCDate();
 		var year = dateObj.getUTCFullYear();
 
 		return day + "-" + month + "-" + year;
     }
+    $http.get('/api/vacancys').then(function(res){
+    	$scope.vacancyList = res.data;
+    },function(res){
+    	alert("erro in  api/vacancys get api"+res);
+    });
     $scope.createVacancy = function(){
     	openModal();
     }
@@ -39,6 +44,15 @@ angular.module('clickeatApp')
     }
     $scope.trash = function(vacancy){
     	//trash vacancy here..
+    	var id = vacancy._id;
+    	$http.delete('/api/vacancys/'+vacancy._id).then(function(res){
+    		$scope.vacancyList = $scope.vacancyList.filter(function(obj){
+    			return obj._id != id;
+    		});//splice()
+    		console.log(res.data);
+    	},function(err){
+
+    	});
     }
     var openModal = function(vacancy){
     	$scope.items = vacancy;
@@ -54,14 +68,19 @@ angular.module('clickeatApp')
 	      }
 	    });
 
-	    modalInstance.result.then(function (selectedItem) {
-	      $scope.selected = selectedItem;
+	    modalInstance.result.then(function (updatevacancy) {
+	      if(updatevacancy.newvacancy){
+			$scope.vacancyList.push(updatevacancy.newvacancy);
+	      }else if(updatevacancy.updatevacancy){
+	      	//$scope.vacancyList.filter
+	      }
+	     // $scope.selected = selectedItem;
 	    }, function () {
 	     // $log.info('Modal dismissed at: ' + new Date());
 	    });
     }
 
-  }).controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+  }).controller('ModalInstanceCtrl', function ($scope, $modalInstance, items, $http) {
 	  $scope.items = items;
 	  if($scope.items){
 	  	$scope.req = $scope.items;
@@ -69,12 +88,12 @@ angular.module('clickeatApp')
 	  }else{
   	  	$scope.req={};
 	  }
-	/*  $scope.selected = {
-	    item: $scope.items[0]
-	  };*/
+	  $scope.selected = {
+	    newvacancy: $scope.newvacancy
+	  };
 
 	  $scope.ok = function () {
-	    $modalInstance.close($scope.selected.item);
+	    $modalInstance.close($scope.selected);
 	  };
 
 	  $scope.cancel = function () {
@@ -90,7 +109,7 @@ angular.module('clickeatApp')
 	  };	
       $scope.minDate = new Date();
       $scope.today = function() {
-   	  	$scope.req.dt = new Date();
+   	  	$scope.req.date = new Date();
   	  };
   	  $scope.today();
 
@@ -103,20 +122,37 @@ angular.module('clickeatApp')
 	  $scope.makeRequest = function(form){
 	  	$scope.submitted = true;
 	  	if(form.$valid){
-	  /*		{
-	  		  category: $scope.req.category,
-			  desc: $scope.req.desc,
-			  skill: $scope.req.skill,
-			  count: $scope.req.count,
-			  rate: $scope.req.rate,
-			  date: $scope.req.dt,
-			  time: $scope.req.mytime
-	  		}*/
+	  	 var vacancyObj = {
+	  		  'category': $scope.req.category,
+			  'desc': $scope.req.desc,
+			  'skill': $scope.req.skill,
+			  'count': $scope.req.count,
+			  'rate': $scope.req.rate,
+			  'date': $scope.req.date,
+			  'time': $scope.req.mytime
+	  		};
 	  		if($scope.updateEnable){//update the existing vacancy
-
+	  			$http.patch('/api/vacancys/'+$scope.req._id,vacancyObj).then(
+	  				function(res){
+	  					$scope.updatevacancy = res.data;
+	  					$scope.ok();
+	  				},
+	  				function(err){
+	  					alert('error in /api/vacancys patch ');
+	  				}
+	  			);
 	  		}else{//creating new vacancy
-
+	  			$http.post('/api/vacancys',vacancyObj).then(
+	  				function(res){
+	  					$scope.selected.newvacancy = res.data;
+	  					$scope.ok();
+	  				},
+	  				function(err){
+	  					alert('error in /api/vacancys post ');
+	  				}
+	  			);
 	  		}
+	  		
 	  	}
 	  }
 });

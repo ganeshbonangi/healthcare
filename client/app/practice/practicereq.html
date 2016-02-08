@@ -42,16 +42,16 @@
                     Count is required
                   </p>
                 </div>
-                <div class="form-group form-inline" ng-class="{ 'has-success': form.dt.$valid && submitted,
-                                                    'has-error': form.dt.$invalid && submitted }">
+                <div class="form-group form-inline" ng-class="{ 'has-success': form.date.$valid && submitted,
+                                                    'has-error': form.date.$invalid && submitted }">
                   <label>Date</label>
 
-                  <input type="text" class="form-control" name="dt" datepicker-popup="dd-MMMM-yyyy" ng-model="req.dt" is-open="popup1.opened" min-date="minDate"   ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                  <input type="text" class="form-control" name="date" datepicker-popup="dd-MMMM-yyyy" ng-model="req.date" is-open="popup1.opened" min-date="minDate"   ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
                   <span>
                     <button type="button" class="btn btn-default" ng-click="openPicker()"><i class="glyphicon glyphicon-calendar"></i></button>
                   </span>
 
-                  <p class="help-block" ng-show="form.dt.$error.required && submitted">
+                  <p class="help-block" ng-show="form.date.$error.required && submitted">
                     Date is required
                   </p>
                 </div>
@@ -81,7 +81,7 @@
                 </button>
             </form> 
         </div>
-        <div class="modal-footer">
+<!--         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
+        </div> -->
